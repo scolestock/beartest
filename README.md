@@ -25,11 +25,7 @@ import { describe } from 'beartest-js';
 import assert from 'assert';
 import { sum } from './sum.js';
 
-export default describe('Test', ({ it }) => {
-  it('1 + 2 != 4', async () => {
-    assert.strictEqual(sum(1, 2), 3);
-  });
-
+export default describe('Sum', ({ it }) => {
   it('1 + 2 = 3', async () => {
     assert.strictEqual(sum(1, 2), 3);
   });
