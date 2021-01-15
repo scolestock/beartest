@@ -1,33 +1,20 @@
 #!/usr/bin/env node
 
 import glob from 'tiny-glob';
-import fs from 'fs';
-import path from 'path';
 
-async function main() {
-  let config = {
-    files: '**/*.test.*',
-    afterAll: () => {},
-  };
-  const configFilePath = path.resolve('./beartest.config.js');
-  if (fs.existsSync(configFilePath)) {
-    const configFile = await import(configFilePath);
-    config = {
-      ...config,
-      ...configFile.default,
-    };
-  }
-  const suppliedGlob = process.argv[2];
-  const files = await glob(suppliedGlob || config.files, { absolute: true });
-  for (const file of files) {
-    let module = await import(file);
-    while (module) {
-      await module;
-      module = module.default;
+async function runTests() {
+  try {
+    const globStr = process.argv[2] || '**/*.test.*';
+    const files = await glob(globStr, { absolute: true });
+    for (const file of files) {
+      let module = await import(file);
+      await module.default;
     }
+    process.exit(0);
+  } catch (e) {
+    console.error(e);
+    process.exit(1);
   }
-
-  await config.afterAll();
 }
 
-main();
+runTests();

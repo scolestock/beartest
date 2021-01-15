@@ -1,7 +1,7 @@
 {
   "name": "beartest-js",
-  "version": "2.0.3",
-  "description": "A lightweight testing framework inspired by baretest",
+  "version": "3.0.0",
+  "description": "Bear Bones Testing",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/rubber-duck-software/beartest.git"

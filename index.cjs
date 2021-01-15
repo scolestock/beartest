@@ -1,44 +1,33 @@
 const rgb = require('barecolor');
 
-async function describe(headline, fn) {
+module.exports = async function (headline, fn) {
   const suite = [];
   const only = [];
-  let beforeAll = () => {};
-  function setBeforeAll(fn) {
-    beforeAll = fn;
-  }
-  let afterAll = () => {};
-  function setAfterAll(fn) {
-    afterAll = fn;
-  }
-  let beforeEach = () => {};
-  function setBeforeEach(fn) {
-    beforeEach = fn;
-  }
-  let afterEach = () => {};
-  function setAfterEach(fn) {
-    afterEach = fn;
-  }
+  let beforeAll = async () => {};
+  let afterAll = async () => {};
+  let beforeEach = async () => {};
+  let afterEach = async () => {};
+  const it = (name, fn) => suite.push({ name: name, fn: fn });
+  it.only = (name, fn) => only.push({ name: name, fn: fn });
+  it.skip = () => {};
 
-  function test(name, fn) {
-    suite.push({ name: name, fn: fn });
-  }
-  test.only = function (name, fn) {
-    only.push({ name: name, fn: fn });
-  };
-  test.skip = function () {};
-
-  await fn({
-    test: test,
-    it: test,
-    beforeAll: setBeforeAll,
-    afterAll: setAfterAll,
-    beforeEach: setBeforeEach,
-    afterEach: setAfterEach,
+  fn({
+    it: it,
+    beforeAll: (fn) => {
+      beforeAll = fn;
+    },
+    afterAll: (fn) => {
+      afterAll = fn;
+    },
+    beforeEach: (fn) => {
+      beforeEach = fn;
+    },
+    afterEach: (fn) => {
+      afterEach = fn;
+    },
   });
 
   const tests = only.length > 0 ? only : suite;
-
   rgb.cyanln(headline + ' ');
 
   await beforeAll();
@@ -47,18 +36,13 @@ async function describe(headline, fn) {
       await beforeEach();
       await test.fn();
       rgb.green(`✓`);
-      rgb.grayln(` ${test.name}`);
+      rgb.gray(` ${test.name}\n`);
     } catch (e) {
-      rgb.red(`\n\n! ${test.name} \n\n`);
+      rgb.red(`\n✗ ${test.name} \n\n`);
       throw e;
     } finally {
       await afterEach();
     }
   }
   await afterAll();
-  console.log();
-}
-
-const exp = describe;
-exp.default = describe;
-module.exports = exp;
+};

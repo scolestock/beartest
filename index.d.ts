@@ -1,10 +1,11 @@
-type testFn = (name: string, fn: () => void | Promise<void>) => void
+type test = (name: string, fn: () => void | Promise<void>) => void
 
-export default function describe(headline: string, fn: (args: {
-  test: testFn & { only: testFn, skip: testFn }
-  it: testFn & { only: testFn, skip: testFn }
+declare function describe(headline: string, fn: (args: {
+  it: test & { only: test, skip: test }
   beforeAll: (fn: () => void | Promise<void>) => void
   afterAll: (fn: () => void | Promise<void>) => void
   beforeEach: (fn: () => void | Promise<void>) => void
   afterEach: (fn: () => void | Promise<void>) => void
 }) => void): Promise<boolean>
+
+export = describe
