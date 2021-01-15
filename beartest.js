@@ -20,8 +20,11 @@ async function main() {
   const suppliedGlob = process.argv[2];
   const files = await glob(suppliedGlob || config.files, { absolute: true });
   for (const file of files) {
-    const { default: defaultTest } = await import(file);
-    await defaultTest;
+    let module = await import(file);
+    while (module) {
+      await module;
+      module = module.default;
+    }
   }
 
   await config.afterAll();
