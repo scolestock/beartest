@@ -21,13 +21,12 @@ API similar to Mocha's with minimal code. **Note:** Beartest is only compatible 
 ### Example Test
 
 ```javascript
-import { describe } from 'beartest-js';
+import describe from 'beartest-js';
 import assert from 'assert';
-import { sum } from './sum.js';
 
 export default describe('Sum', ({ it }) => {
-  it('1 + 2 = 3', async () => {
-    assert.strictEqual(sum(1, 2), 3);
+  it('add correctly', async () => {
+    assert.strictEqual(1 + 2, 3);
   });
 });
 ```
