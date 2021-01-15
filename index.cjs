@@ -1,6 +1,6 @@
-import rgb from 'barecolor';
+const rgb = require('barecolor');
 
-export async function describe(headline, fn) {
+module.exports = async function describe(headline, fn) {
   const suite = [];
   const only = [];
   let beforeAll = () => {};
@@ -57,4 +57,4 @@ export async function describe(headline, fn) {
   }
   await afterAll();
   console.log();
-}
+};

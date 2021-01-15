@@ -1,13 +1,13 @@
 {
   "name": "beartest-js",
-  "version": "1.0.1",
+  "version": "2.0.0",
   "description": "A lightweight testing framework inspired by baretest",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/rubber-duck-software/beartest.git"
   },
   "types": "index.d.ts",
-  "module": "index.js",
+  "module": "index.cjs",
   "bin": {
     "beartest": "beartest.js"
   },
@@ -22,7 +22,7 @@
     "url": "https://github.com/rubber-duck-software/beartest/issues"
   },
   "homepage": "https://github.com/rubber-duck-software/beartest#readme",
-  "main": "index.js",
+  "main": "index.cjs",
   "devDependencies": {},
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
