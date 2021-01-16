@@ -1,14 +1,18 @@
 #!/usr/bin/env node
-
+import beartest from './beartest.cjs';
 import glob from 'tiny-glob';
+
+const tests = [];
+const describe = beartest.describe;
+beartest.describe = (headline, fn) => tests.push(describe(headline, fn));
 
 async function runTests() {
   try {
     const globStr = process.argv[2] || '**/*.test.*';
     const files = await glob(globStr, { absolute: true });
     for (const file of files) {
-      let module = await import(file);
-      await module.default;
+      await import(file);
+      await Promise.all(tests);
     }
     process.exit(0);
   } catch (e) {
